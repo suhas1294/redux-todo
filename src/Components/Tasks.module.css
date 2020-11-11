@@ -1,0 +1,28 @@
+.TaskCard{
+    box-sizing: border-box;
+    color: black;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 1%;
+    margin: 3%;
+    width: 50%;
+}
+
+.TaskComplete{
+    background: #d4ffdf;
+    box-shadow: 3px 3px 8px #88f7a5;
+}
+
+.TaskIncomplete{
+    background: #ffdede;
+    box-shadow: 3px 3px 8px #d4615f;
+}
+
+button{
+    display: inline;
+    margin-right: 10px;
+    background: #fff;
+    padding: 5px;
+}

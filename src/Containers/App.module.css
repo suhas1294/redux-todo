@@ -1,0 +1,28 @@
+.App {
+  width: 80%;
+  text-align: center;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.FieldContainer{
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  margin-top: 5%;
+}
+
+#PlusBtn {
+	border: 2px solid lightgrey;
+	background-color: #fff;
+	font-size: 16px;
+	height: 2.5em;
+	width: 2.5em;
+	border-radius: 999px;
+  position: relative;
+  font-size: 22px;
+  cursor: pointer;
+}
