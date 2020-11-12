@@ -4,10 +4,29 @@ import './index.css';
 import App from './Containers/App';
 import reportWebVitals from './reportWebVitals';
 
+// redux related imports
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import {Provider} from 'react-redux';
+import thunk from 'redux-thunk';
+
+// importing reducers
+import statusReducer from './redux/reducers/status';
+import crudopsReducer from './redux/reducers/crudops';
+
+// combining reducers and creating store with root reducer
+const componeEnhancers = compose;
+const rootReducer = combineReducers({
+  statusReducer: statusReducer,
+  crudopsReducer: crudopsReducer
+})
+const store = createStore(rootReducer, componeEnhancers( applyMiddleware(thunk) ) );
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store} >
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 

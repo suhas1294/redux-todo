@@ -3,10 +3,12 @@ import React, {Component} from 'react';
 import TaskList from './../Components/TaskList';
 import {v4 as uuidv4} from 'uuid'
 
-class App extends Component {
+import { connect } from 'react-redux';
+import * as actions from './../redux/actions/index';
+
+export class App extends Component {
   state = {
-    inputText: "",
-    tasks: []
+    inputText: ""
   }
 
   genRandomDate = () => {
@@ -23,8 +25,8 @@ class App extends Component {
       endDate: this.genRandomDate(),
       status: false
     };
-    let allTasks = [...this.state.tasks, newTask];
-    this.setState({tasks: allTasks, inputText: ""});
+    this.props.onAddingTask(newTask);
+    this.setState({inputText: ""});
   }
 
   inputChangeHandler = (event) => {
@@ -32,21 +34,16 @@ class App extends Component {
   }
 
   statusChangeHandler = (id) => {
-    let tempTasks = [];
-    this.state.tasks.forEach(task => {
-      if (task.id !== id) {
-        tempTasks.push(task);
-      }else{
-        let updatedTask = {...task, status: !task.status};
-        tempTasks.push(updatedTask);
-      }
-    });
-    this.setState({tasks: tempTasks});
+    this.props.onStatusChange(id, this.props.tasks);
+    // debugger
+    console.log('[status updated tasklist inside handler:] \t');
+    console.log(this.props.statusUpdatedTasks);
+
+    this.props.updateTasklist(this.props.statusUpdatedTasks);
   }
 
   deleteTaskHandler = (id) => {
-    let newTasks = this.state.tasks.filter(task => task.id != id );
-    this.setState({tasks: newTasks});
+    this.props.onDeletingTask(id);
   }
 
   render(){
@@ -56,10 +53,28 @@ class App extends Component {
           <input onChange={(event) => this.inputChangeHandler(event)} id="userinput" style={{padding: '1rem', width: '70%'}} placeholder="start adding tasks" value={this.state.inputText}/>
           <button id={styles.PlusBtn} onClick={this.addBtnHandler} >+</button>
         </div>
-        { this.state.tasks.length > 0 ? <TaskList StatusChangeClicked={this.statusChangeHandler} tasks={this.state.tasks} deleteTask={this.deleteTaskHandler} /> : (<p>Start adding the tasks...</p>)}        
+        { (this.props.tasks && this.props.tasks.length > 0) ? <TaskList StatusChangeClicked={this.statusChangeHandler} tasks={this.props.tasks} deleteTask={this.deleteTaskHandler} /> : (<p>Start adding the tasks...</p>)}
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+    console.log('[status updated tasklist:] \t');
+    console.log(state.statusReducer.tasks);
+    return{
+      tasks: state.crudopsReducer.tasks,
+      statusUpdatedTasks: state.statusReducer.tasks
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddingTask: (payload) => dispatch(actions.addTaskAsync(payload)),
+    onDeletingTask: (id) => dispatch(actions.deleteTaskAsync(id)),
+    onStatusChange: (id, tasks) => dispatch(actions.changeStatus(id, tasks)),
+    updateTasklist: (statusUpdatedTaskList) => dispatch(actions.updateTasklist(statusUpdatedTaskList))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
