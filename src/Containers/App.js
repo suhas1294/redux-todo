@@ -33,15 +33,6 @@ export class App extends Component {
     this.setState({inputText: event.target.value});
   }
 
-  statusChangeHandler = (id) => {
-    this.props.onStatusChange(id, this.props.tasks);
-    this.props.updateTasklist(this.props.statusUpdatedTasks);
-  }
-
-  deleteTaskHandler = (id) => {
-    this.props.onDeletingTask(id);
-  }
-
   render(){
     return (
       <div className={styles.App}>
@@ -49,7 +40,7 @@ export class App extends Component {
           <input onChange={(event) => this.inputChangeHandler(event)} id="userinput" style={{padding: '1rem', width: '70%'}} placeholder="start adding tasks" value={this.state.inputText}/>
           <button id={styles.PlusBtn} onClick={this.addBtnHandler} >+</button>
         </div>
-        { (this.props.tasks && this.props.tasks.length > 0) ? <TaskList StatusChangeClicked={this.statusChangeHandler} tasks={this.props.tasks} deleteTask={this.deleteTaskHandler} /> : (<p>Start adding the tasks...</p>)}
+        { (this.props.tasks && this.props.tasks.length > 0) ? <TaskList StatusChangeClicked={this.props.onStatusChange} tasks={this.props.tasks} deleteTask={this.props.onDeletingTask} /> : (<p>Start adding the tasks...</p>)}
       </div>
     );
   }
@@ -57,8 +48,7 @@ export class App extends Component {
 
 const mapStateToProps = state => {
     return{
-      tasks: state.crudopsReducer.tasks,
-      statusUpdatedTasks: state.statusReducer.tasks
+      tasks: state.tasks,
     }
 }
 
@@ -66,8 +56,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onAddingTask: (payload) => dispatch(actions.addTaskAsync(payload)),
     onDeletingTask: (id) => dispatch(actions.deleteTaskAsync(id)),
-    onStatusChange: (id, tasks) => dispatch(actions.changeStatus(id, tasks)),
-    updateTasklist: (statusUpdatedTaskList) => dispatch(actions.updateTasklist(statusUpdatedTaskList))
+    onStatusChange: (id) => dispatch(actions.changeStatus(id))
   }
 }
 

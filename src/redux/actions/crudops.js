@@ -52,9 +52,9 @@ export const deleteTaskAsync = (taskPayload) => {
     }
 }
 
-export const updateTasklist = (tasks) => {
+export const changeStatus = (taskId) => {
     return {
-        type: actionTypes.UPDATE_TASK_LIST,
-        tasks: tasks
-    }
+        type: actionTypes.CHANGE_TASK_STATUS,
+        stautsChangeId: taskId
+    };
 }

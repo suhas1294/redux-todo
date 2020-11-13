@@ -9,7 +9,7 @@ const reducer = ( state=initialState, action ) => {
     switch(action.type) {
         case actionTypes.ADD_TASK: return addTask(state, action.payload);
         case actionTypes.DELETE_TASK: return deleteTask(state, action.deleteId);
-        case actionTypes.UPDATE_TASK_LIST: return updateTasklist(action.tasks);
+        case actionTypes.CHANGE_TASK_STATUS: return changeStatus(state, action.stautsChangeId);
         default: return state;
     }
 };
@@ -26,8 +26,17 @@ const deleteTask = (state, id) => {
     return updatedState;
 }
 
-const updateTasklist = (statusUpdatedTaskList) => {
-    return {tasks: statusUpdatedTaskList};
+const changeStatus = (state, id) => {
+    let tempTasks = [];
+    state.tasks.forEach(task => {
+      if (task.id !== id) {
+        tempTasks.push(task);
+      }else{
+        let updatedTask = {...task, status: !task.status};
+        tempTasks.push(updatedTask);
+      }
+    });
+    return({tasks: tempTasks});
 }
 
 export default reducer;
