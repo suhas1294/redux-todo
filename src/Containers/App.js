@@ -5,6 +5,7 @@ import {v4 as uuidv4} from 'uuid'
 
 import { connect } from 'react-redux';
 import * as actions from './../redux/actions/index';
+import Spinner from './../Components/common/Spinner'
 
 export class App extends Component {
   state = {
@@ -40,7 +41,9 @@ export class App extends Component {
           <input onChange={(event) => this.inputChangeHandler(event)} id="userinput" style={{padding: '1rem', width: '70%'}} placeholder="start adding tasks" value={this.state.inputText}/>
           <button id={styles.PlusBtn} onClick={this.addBtnHandler} >+</button>
         </div>
-        { (this.props.tasks && this.props.tasks.length > 0) ? <TaskList StatusChangeClicked={this.props.onStatusChange} tasks={this.props.tasks} deleteTask={this.props.onDeletingTask} /> : (<p>Start adding the tasks...</p>)}
+        { this.props.showSpinner ?
+          <Spinner />
+          : (this.props.tasks && this.props.tasks.length > 0) ? <TaskList StatusChangeClicked={this.props.onStatusChange} tasks={this.props.tasks} deleteTask={this.props.onDeletingTask} /> : <p>start adding tasks...</p> }
       </div>
     );
   }
@@ -49,6 +52,7 @@ export class App extends Component {
 const mapStateToProps = state => {
     return{
       tasks: state.tasks,
+      showSpinner: state.showSpinner
     }
 }
 
