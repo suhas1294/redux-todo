@@ -35,10 +35,6 @@ export class App extends Component {
 
   statusChangeHandler = (id) => {
     this.props.onStatusChange(id, this.props.tasks);
-    // debugger
-    console.log('[status updated tasklist inside handler:] \t');
-    console.log(this.props.statusUpdatedTasks);
-
     this.props.updateTasklist(this.props.statusUpdatedTasks);
   }
 
@@ -60,8 +56,6 @@ export class App extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log('[status updated tasklist:] \t');
-    console.log(state.statusReducer.tasks);
     return{
       tasks: state.crudopsReducer.tasks,
       statusUpdatedTasks: state.statusReducer.tasks

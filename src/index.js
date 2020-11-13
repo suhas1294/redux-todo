@@ -8,18 +8,21 @@ import reportWebVitals from './reportWebVitals';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
+import logger from 'redux-logger'
 
 // importing reducers
 import statusReducer from './redux/reducers/status';
 import crudopsReducer from './redux/reducers/crudops';
 
 // combining reducers and creating store with root reducer
-const componeEnhancers = compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({
   statusReducer: statusReducer,
   crudopsReducer: crudopsReducer
 })
-const store = createStore(rootReducer, componeEnhancers( applyMiddleware(thunk) ) );
+
+
+const store = createStore(rootReducer, composeEnhancers( applyMiddleware(thunk, logger) ) );
 
 ReactDOM.render(
   <Provider store={store} >

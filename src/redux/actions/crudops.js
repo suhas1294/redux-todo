@@ -18,7 +18,6 @@ export const addTaskAsync = (taskPayload) => {
     return dispatch => {
         axios.get(timeTakingApi)
             .then(response => {
-                console.log(response);
                 dispatch(addTask(taskPayload));
             })
             .catch(error => {
@@ -50,13 +49,6 @@ export const deleteTaskAsync = (taskPayload) => {
                 dispatch(deleteTask(taskPayload));
                 console.log("failed to get response from server {}", error);
             });
-    }
-}
-
-export const changeStatus = (id, tasks) => {
-    return {
-        type: actionTypes.CHANGE_TASK_STATUS,
-        payload: {id: id, tasks: tasks}
     }
 }
 

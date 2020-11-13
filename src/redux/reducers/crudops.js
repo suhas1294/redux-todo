@@ -27,8 +27,6 @@ const deleteTask = (state, id) => {
 }
 
 const updateTasklist = (statusUpdatedTaskList) => {
-    console.log("received in workaround");
-    console.log(statusUpdatedTaskList);
     return {tasks: statusUpdatedTaskList};
 }
 

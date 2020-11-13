@@ -23,8 +23,6 @@ const changeStatus = (payload) => {
         tempTasks.push(updatedTask);
       }
     });
-    console.log("status reducer returning:")
-    console.log({tasks: tempTasks});
     return({tasks: tempTasks});
 }
 
